@@ -21,7 +21,7 @@ def calculate_responsibilities(X, mean, sigma, pi, N, K):
     # Now calculate responsibilities gamma_nk, that is, the whole expression
     # Use the previously defined and calculated variable denom
     for k in range(K):
-        responsibilities[:, k] = 0 # TODO: change
+        responsibilities[:, k] = (pi[k] * likelihood[:, k]) / denom # TODO: change
         
     return responsibilities                                             
 
@@ -53,6 +53,7 @@ def update_parameters(X, mean, sigma, pi, responsibilities, N, K):
     for k in range(K):
         gamma_nk = responsibilities[:, k].T
 
+        mean_new[k] = np.dot(gamma_nk, X) / N_k[k]
         # TODO: mean_new
         
         tmp = np.zeros_like(sigma_new[k])
@@ -62,6 +63,7 @@ def update_parameters(X, mean, sigma, pi, responsibilities, N, K):
                                           
         sigma_new[k] = tmp / N_k[k]
 
+        pi_new = N_k / N
         # TODO: pi_new
     
     return mean_new, sigma_new, pi_new
@@ -99,9 +101,11 @@ def em(X, K, max_iter):
 
     for it in range(max_iter):
         # E-Step
+        responsibilities = calculate_responsibilities(X, mean, sigma, pi, N, K)
         # TODO: appropriate function call
         
         # M-Step
+        mean, sigma, pi = update_parameters(X, mean, sigma, pi, responsibilities, N, K)
         # TODO: appropriate function call
         
         # Evaluate
