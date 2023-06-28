@@ -83,8 +83,8 @@ def task_em(X):
     :param X: data for clustering, shape: (N, D), N=500, D = 2
     :return:
     """
-    K = 1 # TODO: change 
-    max_iter = 1 # TODO: change 
+    K = 3 # TODO: change
+    max_iter = 20 # TODO: change
     means, soft_clusters, log_likelihood = em(X, K, max_iter)
     
     plot_objective_function(log_likelihood)
@@ -107,7 +107,7 @@ def main():
     
     # ----- Task EM
     print('--- Task EM ---')
-    # task_em(X_mouse) # TODO: uncomment to call the function
+    task_em(X_mouse) # TODO: uncomment to call the function
 
 if __name__ == '__main__':
     main()
